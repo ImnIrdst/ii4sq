@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MapFragment">
+
+    <fragment
+        android:id="@+id/MapFragment"
+        android:name="com.imn.ii4sq.ui.map.MapFragment"
+        android:label="@string/map_fragment_label"
+        tools:layout="@layout/fragment_map">
+
+        <action
+            android:id="@+id/action_MapFragment_to_VenueDetailsFragment"
+            app:destination="@id/VenueDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/VenueDetailsFragment"
+        android:name="com.imn.ii4sq.ui.details.VenueDetailsFragment"
+        android:label="@string/venue_details_fragment_label"
+        tools:layout="@layout/fragment_venue_details">
+
+        <action
+            android:id="@+id/action_VenueDetailsFragment_to_MapFragment"
+            app:destination="@id/MapFragment" />
+    </fragment>
+</navigation>

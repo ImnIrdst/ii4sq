@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">ii4sq</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="map_fragment_label">Map Fragment</string>
+    <string name="venue_details_fragment_label">VenueDetails Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_map_fragment">Hello map fragment</string>
+    <string name="hello_venue_details_fragment">Hello venue_details fragment. Arg: %1$s</string>
+</resources>
