@@ -49,5 +49,9 @@ class MapViewModelTest : IITest() {
             assertThat(it[0]).isEqualTo(loadingState<List<Venue>>())
             assertThat(it[1]).isEqualTo(successState(testSearchedVenues))
         }
+
+        coVerifySequence {
+            searchVenuesRepository.search(testLat, testLon, testRadius)
+        }
     }
 }

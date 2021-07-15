@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.imn.ii4sq.data.repository.SearchVenuesRepository
 import com.imn.ii4sq.domain.entities.State
 import com.imn.ii4sq.domain.entities.Venue
+import com.imn.ii4sq.domain.entities.loadingState
+import com.imn.ii4sq.domain.entities.successState
 import kotlinx.coroutines.launch
 
 class MapViewModel(
@@ -16,6 +18,10 @@ class MapViewModel(
     val venuesList: LiveData<State<List<Venue>>> = _venuesList
 
     fun search(lat: Double, lon: Double, radius: Double) = viewModelScope.launch {
-        TODO()
+        _venuesList.postValue(loadingState())
+
+        val result = searchVenuesRepository.search(lat, lon, radius)
+
+        _venuesList.postValue(successState(result))
     }
 }
