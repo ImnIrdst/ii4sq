@@ -1,6 +1,8 @@
 package com.imn.ii4sq.domain.entities
 
+import com.google.gson.annotations.SerializedName
+
 data class VenueLocation(
-    val latitude: Double,
-    val longitude: Double,
+    @SerializedName("latitude") val latitude: Double,
+    @SerializedName("longitude") val longitude: Double,
 )

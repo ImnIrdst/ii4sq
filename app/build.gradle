@@ -57,8 +57,11 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
 
-    androidTestImplementation "io.mockk:mockk:$mockk_test"
     testImplementation "io.mockk:mockk:$mockk_test"
+    androidTestImplementation "io.mockk:mockk:$mockk_test"
+
+    testImplementation "com.google.truth:truth:$truth_version"
+    androidTestImplementation "com.google.truth:truth:$truth_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

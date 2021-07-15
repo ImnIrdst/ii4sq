@@ -2,6 +2,7 @@ package com.imn.ii4sq.data.repository
 
 import com.imn.ii4sq.utils.*
 import io.mockk.*
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -34,7 +35,9 @@ class SearchVenuesRepositoryTest: IITest() {
     @Test
     fun `search returns results from remote data source`() = td.runBlockingTest {
 
-        searchVenuesRepository.search(testLat, testLon, testRadius)
+        val result = searchVenuesRepository.search(testLat, testLon, testRadius)
+
+        assertThat(result).isEqualTo(testSearchedVenues)
 
         coVerifySequence {
             searchVenuesRemoteDataSource.search(testLat, testLon, testRadius)
