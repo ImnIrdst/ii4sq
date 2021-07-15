@@ -44,7 +44,9 @@ class MapViewModelTest : IITest() {
     @Test
     fun `loading search results`() = td.runBlockingTest {
         mapViewModel.venuesList.awaitValue(2) {
+
             mapViewModel.search(testLat, testLon, testRadius)
+
         }.let {
             assertThat(it[0]).isEqualTo(loadingState<List<Venue>>())
             assertThat(it[1]).isEqualTo(successState(testSearchedVenues))
