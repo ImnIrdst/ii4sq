@@ -13,6 +13,7 @@ import org.junit.Test
 class SearchVenuesRepositoryTest: IITest() {
 
     private lateinit var searchVenuesRemoteDataSource: SearchVenuesRemoteDataSource
+    private lateinit var searchVenuesLocalDataSource: SearchVenuesLocalDataSource
     private lateinit var searchVenuesRepository: SearchVenuesRepository
 
     @Before
@@ -23,24 +24,32 @@ class SearchVenuesRepositoryTest: IITest() {
             coEvery { search(testLat, testLon, testRadius) } returns testSearchedVenues
         }
 
-        searchVenuesRepository = SearchVenuesRepository(searchVenuesRemoteDataSource)
+        searchVenuesLocalDataSource = spyk()
+
+        searchVenuesRepository = SearchVenuesRepository(
+            searchVenuesRemoteDataSource,
+            searchVenuesLocalDataSource
+        )
     }
 
     @After
     override fun tearDown() {
-        confirmVerified(searchVenuesRemoteDataSource)
+        confirmVerified(searchVenuesRemoteDataSource, searchVenuesLocalDataSource)
         super.tearDown()
     }
 
     @Test
-    fun `search returns results from remote data source`() = td.runBlockingTest {
+    fun `search returns results from remote data source and caches it`() = td.runBlockingTest {
 
         val result = searchVenuesRepository.search(testLat, testLon, testRadius)
 
         assertThat(result).isEqualTo(testSearchedVenues)
 
         coVerifySequence {
+            searchVenuesLocalDataSource.search(testLat, testLon, testRadius)
+
             searchVenuesRemoteDataSource.search(testLat, testLon, testRadius)
+            searchVenuesLocalDataSource.insert(testLat, testLon, testRadius, testSearchedVenues)
         }
     }
 }
