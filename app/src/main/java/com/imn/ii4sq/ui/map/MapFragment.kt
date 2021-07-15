@@ -8,27 +8,15 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.imn.ii4sq.R
 import com.imn.ii4sq.databinding.FragmentMapBinding
+import com.imn.ii4sq.ui.base.BaseFragment
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class MapFragment : Fragment() {
+class MapFragment : BaseFragment<FragmentMapBinding>() {
 
-    private var _binding: FragmentMapBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        _binding = FragmentMapBinding.inflate(inflater, container, false)
-        return binding.root
-
-    }
+    override fun inflateBinding(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentMapBinding.inflate(inflater, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,10 +24,5 @@ class MapFragment : Fragment() {
         binding.buttonMap.setOnClickListener {
             findNavController().navigate(R.id.action_MapFragment_to_VenueDetailsFragment)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
