@@ -57,6 +57,9 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
 
+    testImplementation "androidx.arch.core:core-testing:$arc_testing_version"
+    androidTestImplementation "androidx.arch.core:core-testing:$arc_testing_version"
+
     testImplementation "io.mockk:mockk:$mockk_test"
     androidTestImplementation "io.mockk:mockk:$mockk_test"
 

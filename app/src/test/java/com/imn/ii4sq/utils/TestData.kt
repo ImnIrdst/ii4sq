@@ -9,3 +9,5 @@ const val testRadius = 200.1
 
 private val gson = Gson()
 val testSearchedVenues = gson.fromJson<SearchResponse>(testSearchJsonResponse).response.venues
+
+const val TEST_AWAIT_TIMEOUT = 1000L
