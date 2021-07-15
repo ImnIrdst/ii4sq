@@ -3,6 +3,7 @@ package com.imn.ii4sq.data.repository
 import com.imn.ii4sq.utils.*
 import io.mockk.*
 import com.google.common.truth.Truth.assertThat
+import com.imn.ii4sq.data.local.SearchVenuesMemoryCacheDao
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -24,11 +25,12 @@ class SearchVenuesRepositoryTest: IITest() {
             coEvery { search(testLat, testLon, testRadius) } returns testSearchedVenues
         }
 
-        searchVenuesLocalDataSource = spyk()
+        searchVenuesLocalDataSource = spyk(SearchVenuesMemoryCacheDao(td))
 
         searchVenuesRepository = SearchVenuesRepository(
             searchVenuesRemoteDataSource,
-            searchVenuesLocalDataSource
+            searchVenuesLocalDataSource,
+            td
         )
     }
 
@@ -41,15 +43,23 @@ class SearchVenuesRepositoryTest: IITest() {
     @Test
     fun `search returns results from remote data source and caches it`() = td.runBlockingTest {
 
-        val result = searchVenuesRepository.search(testLat, testLon, testRadius)
+        val notCacheResults = searchVenuesRepository.search(testLat, testLon, testRadius)
 
-        assertThat(result).isEqualTo(testSearchedVenues)
+        assertThat(notCacheResults).isEqualTo(testSearchedVenues)
+
+        val cachedResults = searchVenuesRepository.search(testLat, testLon, testRadius)
+
+        assertThat(cachedResults).isEqualTo(testSearchedVenues)
 
         coVerifySequence {
+            // before caching
             searchVenuesLocalDataSource.search(testLat, testLon, testRadius)
 
             searchVenuesRemoteDataSource.search(testLat, testLon, testRadius)
             searchVenuesLocalDataSource.insert(testLat, testLon, testRadius, testSearchedVenues)
+
+            // after caching
+            searchVenuesLocalDataSource.search(testLat, testLon, testRadius)
         }
     }
 }
