@@ -12,12 +12,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
 import com.imn.ii4sq.R
 import com.imn.ii4sq.databinding.FragmentMapBinding
 import com.imn.ii4sq.domain.entities.LocationEntity
 import com.imn.ii4sq.domain.entities.State
 import com.imn.ii4sq.ui.base.BaseFragment
 import com.imn.ii4sq.utils.LOCATION_PERMISSIONS
+import com.imn.ii4sq.utils.getMapVisibleRadius
+import com.imn.ii4sq.utils.getTargetLocation
 import org.koin.android.ext.android.inject
 
 
@@ -32,6 +35,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
         googleMap.setMapStyle(
             MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_styles),
         )
+
+        map.setOnCameraIdleListener {
+            loadVenues(map.getTargetLocation(), map.getMapVisibleRadius())
+        }
 
         requestPermissionLauncher.launch(LOCATION_PERMISSIONS)
     }
@@ -81,13 +88,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
                     location.latitude,
                     location.longitude
                 ),
-                15f
+                17f
             )
         )
+    }
 
-        mapViewModel.search(location, 200.0)
-        mapViewModel.venuesList.observe(viewLifecycleOwner) {
-            when (it) {
+    private fun loadVenues(location: LocationEntity, radius: Double) {
+        mapViewModel.search(location, radius)
+        mapViewModel.venuesList.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is State.Failure -> {
                     // TODO()
                 }
@@ -95,8 +104,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
                     // TODO()
                 }
                 is State.Success -> {
-                    println("imnimn ${it.value}")
-                    // TODO()
+
+                    state.value.forEach {
+                        map.addMarker(
+                            MarkerOptions()
+                                .position(it.location.toGoogleMapLatLng())
+                                .title(it.name)
+                        )
+                    }
                 }
             }
         }

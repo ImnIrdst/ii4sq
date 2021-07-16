@@ -15,11 +15,19 @@ class SearchVenuesRepository(
         withContext(ioDispatcher) {
             val localResult = searchVenuesLocalDataSource.search(location, radius)
             if (localResult == null) {
-                val remoteResult = searchVenuesRemoteDataSource.search(location.toLatLng(), radius)
+                val remoteResult = searchVenuesRemoteDataSource.search(
+                    location.toLatLng(),
+                    radius,
+                    API_LOAD_LIMIT
+                )
                 searchVenuesLocalDataSource.insert(location, radius, remoteResult.response.venues)
                 return@withContext remoteResult.response.venues
             } else {
                 return@withContext localResult
             }
         }
+
+    companion object {
+        private const val API_LOAD_LIMIT = 10
+    }
 }

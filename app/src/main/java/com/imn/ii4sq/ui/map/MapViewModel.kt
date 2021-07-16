@@ -20,7 +20,16 @@ class MapViewModel(
     val currentLocation: LiveData<State<LocationEntity>>
         get() = locationRepository.getLocationLiveData()
 
+    private var previousQueryLocation: LocationEntity? = null
+    private var previousQueryRadius: Double? = null
+
     fun search(location: LocationEntity, radius: Double) = viewModelScope.launch {
+        if (previousQueryLocation == location && previousQueryRadius == radius) {
+            return@launch
+        }
+        previousQueryLocation = location
+        previousQueryRadius = radius
+
         _venuesList.postValue(loadingState())
 
         val result = searchVenuesRepository.search(location, radius)

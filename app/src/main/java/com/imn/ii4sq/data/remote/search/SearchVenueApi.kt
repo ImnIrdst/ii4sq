@@ -9,5 +9,6 @@ interface SearchVenueApi: SearchVenuesRemoteDataSource {
     override suspend fun search(
         @Query("ll") latLng: String,
         @Query("radius") radius: Double,
+        @Query("limit") limit: Int,
     ): SearchResponse
 }

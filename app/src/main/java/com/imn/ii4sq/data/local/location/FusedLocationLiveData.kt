@@ -79,8 +79,8 @@ class FusedLocationLiveData(context: Context) : LiveData<State<LocationEntity>>(
 
     companion object {
         val locationRequest: LocationRequest = LocationRequest.create().apply {
-            interval = 10000
-            fastestInterval = 5000
+            interval = 3600_000
+            fastestInterval = 3600_000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
     }
