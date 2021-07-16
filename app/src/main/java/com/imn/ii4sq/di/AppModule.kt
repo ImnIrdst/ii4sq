@@ -1,11 +1,14 @@
 package com.imn.ii4sq.di
 
 import com.google.gson.Gson
+import com.imn.ii4sq.data.local.location.FusedLocationLiveData
 import com.imn.ii4sq.data.local.search.SearchVenuesMemoryCacheDao
 import com.imn.ii4sq.data.remote.interceptors.QueryParamsInterceptor
 import com.imn.ii4sq.data.remote.search.SearchVenueApi
+import com.imn.ii4sq.data.repository.location.LocationRepository
 import com.imn.ii4sq.data.repository.search.SearchVenuesLocalDataSource
 import com.imn.ii4sq.data.repository.search.SearchVenuesRemoteDataSource
+import com.imn.ii4sq.data.repository.search.SearchVenuesRepository
 import com.imn.ii4sq.ui.map.MapViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -33,5 +36,7 @@ val appModule = module {
     }
     single<SearchVenuesLocalDataSource> { SearchVenuesMemoryCacheDao() }
     single<SearchVenuesRemoteDataSource> { get<Retrofit>().create(SearchVenueApi::class.java) }
+    single { SearchVenuesRepository(get(), get()) }
+    single { LocationRepository(FusedLocationLiveData(get())) }
     viewModel { MapViewModel(get(), get()) }
 }

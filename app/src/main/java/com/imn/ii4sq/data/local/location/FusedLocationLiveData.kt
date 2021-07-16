@@ -20,7 +20,6 @@ class FusedLocationLiveData(context: Context) : LiveData<State<LocationEntity>>(
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
-
     @SuppressLint("MissingPermission")
     override fun onActive() {
         super.onActive()

@@ -17,7 +17,7 @@ class MapViewModel(
     private val _venuesList = MutableLiveData<State<List<Venue>>>()
     val venuesList: LiveData<State<List<Venue>>> = _venuesList
 
-    val location: LiveData<State<LocationEntity>>
+    val currentLocation: LiveData<State<LocationEntity>>
         get() = locationRepository.getLocationLiveData()
 
     fun search(location: LocationEntity, radius: Double) = viewModelScope.launch {
