@@ -1,6 +1,7 @@
 package com.imn.ii4sq.ui.map
 
 import com.google.common.truth.Truth.assertThat
+import com.imn.ii4sq.data.repository.location.LocationRepository
 import com.imn.ii4sq.data.repository.search.SearchVenuesRepository
 import com.imn.ii4sq.domain.entities.Venue
 import com.imn.ii4sq.domain.entities.loadingState
@@ -18,6 +19,7 @@ import org.junit.Test
 class MapViewModelTest : IITest() {
 
     private lateinit var searchVenuesRepository: SearchVenuesRepository
+    private lateinit var locationRepository: LocationRepository
     private lateinit var mapViewModel: MapViewModel
 
     @Before
@@ -31,7 +33,9 @@ class MapViewModelTest : IITest() {
             coEvery { search(testLat, testLon, testRadius) } returns testSearchedVenues
         }
 
-        mapViewModel = MapViewModel(searchVenuesRepository)
+        locationRepository = mockk()
+
+        mapViewModel = MapViewModel(searchVenuesRepository, locationRepository)
     }
 
     @After

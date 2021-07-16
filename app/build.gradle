@@ -3,6 +3,9 @@ plugins {
     id 'kotlin-android'
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -18,7 +21,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "FOURSQUARE_CLIENT_ID", localProperties['FOURSQUARE_CLIENT_ID']
+            buildConfigField "String", "FOURSQUARE_CLIENT_SECRET", localProperties['FOURSQUARE_CLIENT_SECRET']
+        }
         release {
+            buildConfigField "String", "FOURSQUARE_CLIENT_ID", localProperties['FOURSQUARE_CLIENT_ID']
+            buildConfigField "String", "FOURSQUARE_CLIENT_SECRET", localProperties['FOURSQUARE_CLIENT_SECRET']
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -47,6 +57,13 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation 'com.google.code.gson:gson:2.8.7'
+
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
