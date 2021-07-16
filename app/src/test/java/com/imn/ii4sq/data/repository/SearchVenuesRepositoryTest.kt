@@ -3,7 +3,10 @@ package com.imn.ii4sq.data.repository
 import com.imn.ii4sq.utils.*
 import io.mockk.*
 import com.google.common.truth.Truth.assertThat
-import com.imn.ii4sq.data.local.SearchVenuesMemoryCacheDao
+import com.imn.ii4sq.data.local.search.SearchVenuesMemoryCacheDao
+import com.imn.ii4sq.data.repository.search.SearchVenuesLocalDataSource
+import com.imn.ii4sq.data.repository.search.SearchVenuesRemoteDataSource
+import com.imn.ii4sq.data.repository.search.SearchVenuesRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After

@@ -1,4 +1,4 @@
-package com.imn.ii4sq.data.repository
+package com.imn.ii4sq.data.repository.search
 
 import com.imn.ii4sq.domain.entities.Venue
 import kotlinx.coroutines.CoroutineDispatcher

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.imn.ii4sq.data.repository.SearchVenuesRepository
+import com.imn.ii4sq.data.repository.search.SearchVenuesRepository
 import com.imn.ii4sq.domain.entities.State
 import com.imn.ii4sq.domain.entities.Venue
 import com.imn.ii4sq.domain.entities.loadingState

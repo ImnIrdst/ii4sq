@@ -1,6 +1,6 @@
-package com.imn.ii4sq.data.local
+package com.imn.ii4sq.data.local.search
 
-import com.imn.ii4sq.data.repository.SearchVenuesLocalDataSource
+import com.imn.ii4sq.data.repository.search.SearchVenuesLocalDataSource
 import com.imn.ii4sq.domain.entities.Venue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

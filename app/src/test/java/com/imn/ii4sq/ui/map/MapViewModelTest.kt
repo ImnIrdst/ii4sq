@@ -1,7 +1,7 @@
 package com.imn.ii4sq.ui.map
 
 import com.google.common.truth.Truth.assertThat
-import com.imn.ii4sq.data.repository.SearchVenuesRepository
+import com.imn.ii4sq.data.repository.search.SearchVenuesRepository
 import com.imn.ii4sq.domain.entities.Venue
 import com.imn.ii4sq.domain.entities.loadingState
 import com.imn.ii4sq.domain.entities.successState

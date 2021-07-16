@@ -1,7 +1,8 @@
 package com.imn.ii4sq.data.local
 
 import com.google.common.truth.Truth.assertThat
-import com.imn.ii4sq.data.repository.SearchVenuesLocalDataSource
+import com.imn.ii4sq.data.local.search.SearchVenuesMemoryCacheDao
+import com.imn.ii4sq.data.repository.search.SearchVenuesLocalDataSource
 import com.imn.ii4sq.utils.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
