@@ -1,6 +1,7 @@
 package com.imn.ii4sq.data.local.search
 
 import com.imn.ii4sq.data.repository.search.SearchVenuesLocalDataSource
+import com.imn.ii4sq.domain.entities.LocationEntity
 import com.imn.ii4sq.domain.entities.Venue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -12,16 +13,16 @@ class SearchVenuesMemoryCacheDao(
 
     private val cache = mutableMapOf<String, List<Venue>>()
 
-    override suspend fun insert(lat: Double, lon: Double, radius: Double, venues: List<Venue>) =
+    override suspend fun insert(location: LocationEntity, radius: Double, venues: List<Venue>) =
         withContext(ioDispatcher) {
-            cache[getKey(lat, lon, radius)] = venues
+            cache[getKey(location, radius)] = venues
         }
 
-    override suspend fun search(lat: Double, lon: Double, radius: Double): List<Venue>? =
+    override suspend fun search(location: LocationEntity, radius: Double): List<Venue>? =
         withContext(ioDispatcher) {
-            cache[getKey(lat, lon, radius)]
+            cache[getKey(location, radius)]
         }
 
-    private fun getKey(lat: Double, lon: Double, radius: Double) = "$lat-$lon-$radius"
+    private fun getKey(location: LocationEntity, radius: Double) = "${location.toLatLng()},$radius"
 }
 

@@ -20,10 +20,10 @@ class MapViewModel(
     val location: LiveData<State<LocationEntity>>
         get() = locationRepository.getLocationLiveData()
 
-    fun search(lat: Double, lon: Double, radius: Double) = viewModelScope.launch {
+    fun search(location: LocationEntity, radius: Double) = viewModelScope.launch {
         _venuesList.postValue(loadingState())
 
-        val result = searchVenuesRepository.search(lat, lon, radius)
+        val result = searchVenuesRepository.search(location, radius)
 
         _venuesList.postValue(successState(result))
     }

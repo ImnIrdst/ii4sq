@@ -1,13 +1,13 @@
 package com.imn.ii4sq.data.remote.search
 
+import com.imn.ii4sq.data.repository.search.SearchVenuesRemoteDataSource
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface SearchVenueApi {
+interface SearchVenueApi: SearchVenuesRemoteDataSource {
     @GET("v2/venues/search")
-    suspend fun searchVenue(
+    override suspend fun search(
         @Query("ll") latLng: String,
-        @Query("radius") radius: Int,
-        @Query("limit") limit: Int,
+        @Query("radius") radius: Double,
     ): SearchResponse
 }

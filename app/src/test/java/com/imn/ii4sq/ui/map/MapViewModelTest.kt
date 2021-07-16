@@ -30,7 +30,7 @@ class MapViewModelTest : IITest() {
         every { DebugUtils.isDebug } returns false
 
         searchVenuesRepository = mockk {
-            coEvery { search(testLat, testLon, testRadius) } returns testSearchedVenues
+            coEvery { search(testLocation, testRadius) } returns testSearchedVenues
         }
 
         locationRepository = mockk()
@@ -49,7 +49,7 @@ class MapViewModelTest : IITest() {
     fun `loading search results`() = td.runBlockingTest {
         mapViewModel.venuesList.awaitValue(2) {
 
-            mapViewModel.search(testLat, testLon, testRadius)
+            mapViewModel.search(testLocation, testRadius)
 
         }.let {
             assertThat(it[0]).isEqualTo(loadingState<List<Venue>>())
@@ -57,7 +57,7 @@ class MapViewModelTest : IITest() {
         }
 
         coVerifySequence {
-            searchVenuesRepository.search(testLat, testLon, testRadius)
+            searchVenuesRepository.search(testLocation, testRadius)
         }
     }
 }

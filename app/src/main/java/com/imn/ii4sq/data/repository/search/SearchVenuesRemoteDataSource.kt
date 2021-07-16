@@ -1,7 +1,8 @@
 package com.imn.ii4sq.data.repository.search
 
-import com.imn.ii4sq.domain.entities.Venue
+import com.imn.ii4sq.data.remote.search.SearchResponse
+import com.imn.ii4sq.domain.entities.LocationEntity
 
 interface SearchVenuesRemoteDataSource {
-    suspend fun search(lat: Double, lon: Double, radius: Double): List<Venue>
+    suspend fun search(latLng: String, radius: Double): SearchResponse
 }

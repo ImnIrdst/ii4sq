@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class SearchVenuesRepositoryTest: IITest() {
+class SearchVenuesRepositoryTest : IITest() {
 
     private lateinit var searchVenuesRemoteDataSource: SearchVenuesRemoteDataSource
     private lateinit var searchVenuesLocalDataSource: SearchVenuesLocalDataSource
@@ -25,7 +25,7 @@ class SearchVenuesRepositoryTest: IITest() {
         super.setUp()
 
         searchVenuesRemoteDataSource = mockk {
-            coEvery { search(testLat, testLon, testRadius) } returns testSearchedVenues
+            coEvery { search("$testLat,$testLon", testRadius) } returns testSearchResponse
         }
 
         searchVenuesLocalDataSource = spyk(SearchVenuesMemoryCacheDao(td))
@@ -46,23 +46,23 @@ class SearchVenuesRepositoryTest: IITest() {
     @Test
     fun `search returns results from remote data source and caches it`() = td.runBlockingTest {
 
-        val notCacheResults = searchVenuesRepository.search(testLat, testLon, testRadius)
+        val notCacheResults = searchVenuesRepository.search(testLocation, testRadius)
 
         assertThat(notCacheResults).isEqualTo(testSearchedVenues)
 
-        val cachedResults = searchVenuesRepository.search(testLat, testLon, testRadius)
+        val cachedResults = searchVenuesRepository.search(testLocation, testRadius)
 
         assertThat(cachedResults).isEqualTo(testSearchedVenues)
 
         coVerifySequence {
             // before caching
-            searchVenuesLocalDataSource.search(testLat, testLon, testRadius)
+            searchVenuesLocalDataSource.search(testLocation, testRadius)
 
-            searchVenuesRemoteDataSource.search(testLat, testLon, testRadius)
-            searchVenuesLocalDataSource.insert(testLat, testLon, testRadius, testSearchedVenues)
+            searchVenuesRemoteDataSource.search("$testLat,$testLon", testRadius)
+            searchVenuesLocalDataSource.insert(testLocation, testRadius, testSearchedVenues)
 
             // after caching
-            searchVenuesLocalDataSource.search(testLat, testLon, testRadius)
+            searchVenuesLocalDataSource.search(testLocation, testRadius)
         }
     }
 }
