@@ -19,6 +19,18 @@ fun GoogleMap.getMapVisibleRadius(): Double {
     return (diagonalDistance[0] / 2).toDouble()
 }
 
+fun LocationEntity.distanceTo(other: LocationEntity): Double {
+    val diagonalDistance = FloatArray(1)
+    Location.distanceBetween(
+        this.latitude,
+        this.longitude,
+        other.latitude,
+        other.longitude,
+        diagonalDistance
+    )
+    return diagonalDistance[0].toDouble()
+}
+
 fun GoogleMap.getTargetLocation(): LocationEntity {
     val visibleRegion = projection.visibleRegion
     val diagonalDistance = FloatArray(1)

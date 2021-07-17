@@ -270,3 +270,69 @@ val testSearchJsonResponse = """
         }
     }
 """.trimIndent()
+
+val testSearchJsonResponseAfterPan = """
+    {
+        "meta": {
+            "code": 200,
+            "requestId": "60efd41b2222750a7254e924"
+        },
+        "response": {
+            "venues": [
+                {
+                    "id": "14",
+                    "name": "Test Location After Pan",
+                    "location": {
+                        "address": "Test Location After Pan address",
+                        "crossStreet": "Test Location After Pan address cross street",
+                        "lat": 10.70995790682886,
+                        "lng": -33.96229110893742,
+                        "labeledLatLngs": [
+                            {
+                                "label": "display",
+                                "lat": 40.70995790682886,
+                                "lng": -73.96229110893742
+                            },
+                            {
+                                "label": "entrance",
+                                "lat": 40.709915,
+                                "lng": -73.962633
+                            }
+                        ],
+                        "distance": 10,
+                        "postalCode": "11211",
+                        "cc": "US",
+                        "neighborhood": "Williamsburg",
+                        "city": "Brooklyn",
+                        "state": "NY",
+                        "country": "United States",
+                        "formattedAddress": [
+                            "Test Location After Pan street",
+                            "Brooklyn, NY 11211",
+                            "United States"
+                        ]
+                    },
+                    "categories": [
+                        {
+                            "id": "4bf58dd8d48988d1cc941735",
+                            "name": "Steakhouse",
+                            "pluralName": "Steakhouses",
+                            "shortName": "Steakhouse",
+                            "icon": {
+                                "prefix": "https://ss3.4sqi.net/img/categories_v2/food/steakhouse_",
+                                "suffix": ".png"
+                            },
+                            "primary": true
+                        }
+                    ],
+                    "venuePage": {
+                        "id": "77462637"
+                    },
+                    "referralId": "v-1626330139",
+                    "hasPerk": false
+                }
+            ],
+            "confident": false
+        }
+    }
+""".trimIndent()

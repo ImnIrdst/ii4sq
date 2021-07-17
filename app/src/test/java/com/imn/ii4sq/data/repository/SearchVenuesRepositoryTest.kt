@@ -25,7 +25,7 @@ class SearchVenuesRepositoryTest : IITest() {
         super.setUp()
 
         searchVenuesRemoteDataSource = mockk {
-            coEvery { search("$testLat,$testLon", testRadius) } returns testSearchResponse
+            coEvery { search(testLocation.toLatLng(), testRadius, any()) } returns testSearchResponse
         }
 
         searchVenuesLocalDataSource = spyk(SearchVenuesMemoryCacheDao(td))
@@ -58,7 +58,7 @@ class SearchVenuesRepositoryTest : IITest() {
             // before caching
             searchVenuesLocalDataSource.search(testLocation, testRadius)
 
-            searchVenuesRemoteDataSource.search("$testLat,$testLon", testRadius)
+            searchVenuesRemoteDataSource.search(testLocation.toLatLng(), testRadius, any())
             searchVenuesLocalDataSource.insert(testLocation, testRadius, testSearchedVenues)
 
             // after caching
