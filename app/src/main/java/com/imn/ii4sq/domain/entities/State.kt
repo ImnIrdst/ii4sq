@@ -4,6 +4,7 @@ import android.content.Context
 import com.imn.ii4sq.R
 import com.imn.ii4sq.utils.DebugUtils
 import android.util.Log
+import com.imn.ii4sq.utils.isConnectedToNet
 import java.net.UnknownHostException
 
 sealed class State<out R> {
@@ -50,6 +51,12 @@ fun IIError.humanReadable(context: Context) =
     context.getString(
         when (this) {
             is IIError.Unknown -> R.string.unknown_error
-            is IIError.Network -> R.string.network_error
+            is IIError.Network -> {
+                if (context.isConnectedToNet()) {
+                    R.string.network_error
+                } else {
+                    R.string.check_your_internet_connection
+                }
+            }
         }
     )

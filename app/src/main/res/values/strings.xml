@@ -15,4 +15,5 @@
     <string name="location_permission_required_rationale">We need location permission to show venues around you!</string>
     <string name="ok">OK</string>
     <string name="retry">RETRY</string>
+    <string name="check_your_internet_connection">Please check your internet connection!</string>
 </resources>
