@@ -2,8 +2,8 @@ package com.imn.ii4sq.data.local.details
 
 import com.google.common.truth.Truth.assertThat
 import com.imn.ii4sq.data.repository.details.VenueDetailsLocalDataSource
-import com.imn.ii4sq.domain.entities.LocationEntity
-import com.imn.ii4sq.utils.*
+import com.imn.ii4sq.utils.IITest
+import com.imn.ii4sq.utils.testVenueDetails
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
