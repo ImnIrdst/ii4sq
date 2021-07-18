@@ -25,10 +25,6 @@ class MapViewModel(
     val currentLocation: LiveData<State<LocationEntity>>
         get() = locationRepository.getLocationLiveData()
 
-    init {
-        println("imnimn viewModel init ${venueSet.size}")
-    }
-
     fun search(location: LocationEntity, radius: Double) = viewModelScope.launch {
 
         _venuesList.postValue(loadingState())
@@ -42,8 +38,6 @@ class MapViewModel(
 
             venueSet.clear()
             venueSet.addAll(newVenues)
-
-            println("imnimn viewModel ${newVenues.size}")
 
             _venuesList.postValue(successState(newVenues))
         } catch (e: Exception) {

@@ -14,15 +14,18 @@
         <action
             android:id="@+id/action_MapFragment_to_VenueDetailsFragment"
             app:destination="@id/VenueDetailsFragment" />
+
     </fragment>
-    <fragment
+
+    <dialog
         android:id="@+id/VenueDetailsFragment"
         android:name="com.imn.ii4sq.ui.details.VenueDetailsFragment"
         android:label="@string/venue_details_fragment_label"
         tools:layout="@layout/fragment_venue_details">
 
-        <action
-            android:id="@+id/action_VenueDetailsFragment_to_MapFragment"
-            app:destination="@id/MapFragment" />
-    </fragment>
+        <argument
+            android:name="venue"
+            app:argType="com.imn.ii4sq.domain.entities.Venue" />
+
+    </dialog>
 </navigation>

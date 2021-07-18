@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shape_top_round_corners"
+    android:paddingHorizontal="@dimen/normal_spacing"
+    android:paddingVertical="@dimen/double_spacing"
     tools:context=".ui.details.VenueDetailsFragment">
 
     <TextView
         android:id="@+id/textview_venue_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@id/button_venue_details"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

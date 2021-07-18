@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -48,6 +49,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
             mapViewModel.search(map.getTargetLocation(), map.getMapVisibleRadius())
         }
 
+        map.setOnMarkerClickListener {
+            val venue = it.tag as Venue
+            findNavController().navigate(
+                MapFragmentDirections.actionMapFragmentToVenueDetailsFragment(venue)
+            )
+            true
+        }
+
         requestPermissionLauncher.launch(LOCATION_PERMISSIONS)
 
         mapViewModel.venuesList.observe(viewLifecycleOwner) { state ->
@@ -78,8 +87,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        println("imnimn inOnViewCreated ${markerList.size} ${drawnVenues.size}")
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
@@ -141,7 +148,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
         }
         markerList.clear()
         markerList.addAll(newMarkerList)
-        println("imnimn after clear ${markerList.size} ${drawnVenues.size}")
     }
 
     private fun listenToMyCurrentLocation() = with(binding) {
