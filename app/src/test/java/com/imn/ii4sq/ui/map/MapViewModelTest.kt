@@ -12,6 +12,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import java.net.UnknownHostException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MapViewModelTest : IITest() {
@@ -102,6 +103,25 @@ class MapViewModelTest : IITest() {
         coVerifySequence {
             searchVenuesRepository.search(testLocation, testRadius)
             searchVenuesRepository.search(testLocationAfterPan, testRadius)
+        }
+    }
+
+    @Test
+    fun `loading search results throws exception`() = td.runBlockingTest {
+        coEvery { searchVenuesRepository.search(testLocation, testRadius) } throws
+                testUnknownHostException
+
+        mapViewModel.venuesList.awaitValue(2) {
+
+            mapViewModel.search(testLocation, testRadius)
+
+        }.let {
+            assertThat(it[0]).isEqualTo(loadingState<List<Venue>>())
+            assertThat(it[1]).isEqualTo(failureState<List<Venue>>(testUnknownHostException.asIIError()))
+        }
+
+        coVerifySequence {
+            searchVenuesRepository.search(testLocation, testRadius)
         }
     }
 }

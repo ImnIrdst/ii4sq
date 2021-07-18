@@ -3,12 +3,12 @@ package com.imn.ii4sq.utils
 import com.google.gson.Gson
 import com.imn.ii4sq.data.remote.search.SearchResponse
 import com.imn.ii4sq.domain.entities.LocationEntity
+import java.net.UnknownHostException
 
-const val testLat = 40.7099
-const val testLon = -73.9622
 const val testRadius = 200.1
 
 val testLocation = LocationEntity(40.7099, -73.9622)
+val testUnknownHostException = UnknownHostException("uhe")
 
 private val gson = Gson()
 val testSearchResponse = gson.fromJson<SearchResponse>(testSearchJsonResponse)
