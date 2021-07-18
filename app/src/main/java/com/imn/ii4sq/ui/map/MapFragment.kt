@@ -24,14 +24,14 @@ import com.imn.ii4sq.domain.entities.Venue
 import com.imn.ii4sq.domain.entities.humanReadable
 import com.imn.ii4sq.ui.base.BaseFragment
 import com.imn.ii4sq.utils.*
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MapFragment : BaseFragment<FragmentMapBinding>() {
 
     private lateinit var map: GoogleMap
 
-    private val mapViewModel: MapViewModel by inject()
+    private val mapViewModel: MapViewModel by viewModel()
 
     private val markerList = mutableListOf<Marker>()
     private val drawnVenues = mutableSetOf<String>()
@@ -49,6 +49,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
         }
 
         requestPermissionLauncher.launch(LOCATION_PERMISSIONS)
+
+        mapViewModel.venuesList.observe(viewLifecycleOwner) { state ->
+            handleVenuesList(state)
+        }
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -75,12 +79,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        println("imnimn inOnViewCreated ${markerList.size} ${drawnVenues.size}")
+
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
-
-        mapViewModel.venuesList.observe(viewLifecycleOwner) { state ->
-            handleVenuesList(state)
-        }
     }
 
     private fun handleVenuesList(state: State<List<Venue>>) = with(binding) {
@@ -129,15 +131,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
     private fun removeClearedMarkers() {
         val newMarkerList = mutableListOf<Marker>()
         markerList.forEach {
-            if (mapViewModel.isVenueCleared(it.tag as Venue)) {
+            val venue = it.tag as Venue
+            if (mapViewModel.isVenueCleared(venue)) {
                 it.remove()
-                drawnVenues.remove(it.tag)
+                drawnVenues.remove(venue.id)
             } else {
                 newMarkerList.add(it)
             }
         }
         markerList.clear()
         markerList.addAll(newMarkerList)
+        println("imnimn after clear ${markerList.size} ${drawnVenues.size}")
     }
 
     private fun listenToMyCurrentLocation() = with(binding) {
