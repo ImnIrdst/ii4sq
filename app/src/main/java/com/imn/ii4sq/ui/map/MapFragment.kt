@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -82,9 +83,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
         }
     }
 
-    private fun handleVenuesList(state: State<List<Venue>>) {
+    private fun handleVenuesList(state: State<List<Venue>>) = with(binding) {
         when (state) {
             is State.Failure -> {
+                loadingView.isVisible = false
+
                 snackBar?.dismiss()
                 snackBar = binding.coordinatorLayout.showSnackbar(
                     state.error.humanReadable(requireContext()),
@@ -95,9 +98,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
                 }
             }
             is State.Loading -> {
-                // TODO()
+                loadingView.isVisible = true
             }
             is State.Success -> {
+                loadingView.isVisible = false
+
                 drawMarkers(state.value)
                 removeClearedMarkers()
             }
@@ -135,10 +140,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
         markerList.addAll(newMarkerList)
     }
 
-    private fun listenToMyCurrentLocation() {
+    private fun listenToMyCurrentLocation() = with(binding) {
         mapViewModel.currentLocation.observe(viewLifecycleOwner) {
             when (it) {
                 is State.Failure -> {
+                    loadingView.isVisible = false
                     snackBar?.dismiss()
                     snackBar = binding.coordinatorLayout.showSnackbar(
                         it.error.humanReadable(requireContext()),
@@ -146,9 +152,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
                     )
                 }
                 is State.Loading -> {
-                    // TODO()
+                    loadingView.isVisible = true
                 }
                 is State.Success -> {
+                    loadingView.isVisible = false
                     zoomToCurrentLocation(it.value)
                 }
             }
