@@ -1,8 +1,10 @@
 package com.imn.ii4sq.domain.entities
 
+import android.content.Context
 import com.imn.ii4sq.R
 import com.imn.ii4sq.utils.DebugUtils
 import android.util.Log
+import java.net.UnknownHostException
 
 sealed class State<out R> {
     object Loading : State<Nothing>()
@@ -16,7 +18,7 @@ fun <V> failureState(error: IIError): State<V> = State.Failure(error)
 fun <V> failureState(error: Throwable): State<V> = State.Failure(error.asIIError())
 
 sealed class IIError(cause: Throwable) : Throwable(cause) {
-
+    class Network(cause: Throwable) : IIError(cause)
     class Unknown(cause: Throwable) : IIError(cause) {
         init {
             if (DebugUtils.isDebug) {
@@ -36,6 +38,7 @@ sealed class IIError(cause: Throwable) : Throwable(cause) {
 fun Throwable.asIIError(): IIError =
     when (this) {
         is IIError -> this
+        is UnknownHostException -> IIError.Network(this)
         else -> IIError.Unknown(this)
     }.also {
         if (DebugUtils.isDebug) {
@@ -43,6 +46,10 @@ fun Throwable.asIIError(): IIError =
         }
     }
 
-fun IIError.humanReadable() = when (this) {
-    is IIError.Unknown -> R.string.unknown_error
-}
+fun IIError.humanReadable(context: Context) =
+    context.getString(
+        when (this) {
+            is IIError.Unknown -> R.string.unknown_error
+            is IIError.Network -> R.string.network_error
+        }
+    )

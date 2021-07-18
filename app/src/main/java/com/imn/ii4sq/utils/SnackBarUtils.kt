@@ -6,19 +6,19 @@ import com.google.android.material.snackbar.Snackbar
 fun View.showSnackbar(
     msgId: Int,
     length: Int,
-    actionMessageId: Int,
-    action: (View) -> Unit,
-) = showSnackbar(context.getString(msgId), length, context.getString(actionMessageId), action)
+    actionMessageId: Int? = null,
+    action: ((View) -> Unit)? = null,
+) = showSnackbar(context.getString(msgId), length, actionMessageId, action)
 
 fun View.showSnackbar(
     msg: String,
     length: Int,
-    actionMessage: CharSequence?,
-    action: (View) -> Unit,
+    actionMessageId: Int? = null,
+    action: ((View) -> Unit)? = null,
 ): Snackbar {
     val snackbar = Snackbar.make(this, msg, length)
-    if (actionMessage != null) {
-        snackbar.setAction(actionMessage) {
+    if (actionMessageId != null && action != null) {
+        snackbar.setAction(context.getString(actionMessageId)) {
             action(this)
         }
     }

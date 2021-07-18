@@ -72,9 +72,7 @@ class FusedLocationLiveData(context: Context) : LiveData<State<LocationEntity>>(
     }
 
     private fun sendError(location: Location?, cause: Throwable? = null) {
-        value = failureState(
-            IIError.Unknown(Throwable("locationResult is $location", cause))
-        )
+        value = failureState(Throwable("locationResult is $location", cause))
     }
 
     companion object {

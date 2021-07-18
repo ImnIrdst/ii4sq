@@ -20,6 +20,7 @@ import com.imn.ii4sq.databinding.FragmentMapBinding
 import com.imn.ii4sq.domain.entities.LocationEntity
 import com.imn.ii4sq.domain.entities.State
 import com.imn.ii4sq.domain.entities.Venue
+import com.imn.ii4sq.domain.entities.humanReadable
 import com.imn.ii4sq.ui.base.BaseFragment
 import com.imn.ii4sq.utils.*
 import org.koin.android.ext.android.inject
@@ -84,7 +85,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
     private fun handleVenuesList(state: State<List<Venue>>) {
         when (state) {
             is State.Failure -> {
-                // TODO()
+                snackBar?.dismiss()
+                snackBar = binding.coordinatorLayout.showSnackbar(
+                    state.error.humanReadable(requireContext()),
+                    Snackbar.LENGTH_INDEFINITE,
+                    R.string.retry
+                ) {
+                    mapViewModel.search(map.getTargetLocation(), map.getMapVisibleRadius())
+                }
             }
             is State.Loading -> {
                 // TODO()
@@ -131,14 +139,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
         mapViewModel.currentLocation.observe(viewLifecycleOwner) {
             when (it) {
                 is State.Failure -> {
-                    // TODO()
+                    snackBar?.dismiss()
+                    snackBar = binding.coordinatorLayout.showSnackbar(
+                        it.error.humanReadable(requireContext()),
+                        Snackbar.LENGTH_INDEFINITE,
+                    )
                 }
                 is State.Loading -> {
                     // TODO()
                 }
                 is State.Success -> {
                     zoomToCurrentLocation(it.value)
-                    // TODO()
                 }
             }
         }
