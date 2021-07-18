@@ -54,7 +54,7 @@ class MapViewModelTest : IITest() {
 
 
     @Test
-    fun `loading search results`() = td.runBlockingTest {
+    fun `loading search results sucessfully`() = td.runBlockingTest {
         val expected = testSearchedVenues.sortedBy {
             it.location.toLocationEntity().distanceToTest(testLocation)
         }
