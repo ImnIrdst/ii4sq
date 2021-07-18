@@ -12,11 +12,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.imn.ii4sq.R
 import com.imn.ii4sq.databinding.FragmentMapBinding
 import com.imn.ii4sq.domain.entities.LocationEntity
 import com.imn.ii4sq.domain.entities.State
+import com.imn.ii4sq.domain.entities.Venue
 import com.imn.ii4sq.ui.base.BaseFragment
 import com.imn.ii4sq.utils.LOCATION_PERMISSIONS
 import com.imn.ii4sq.utils.getMapVisibleRadius
@@ -28,6 +30,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
 
     private val mapViewModel: MapViewModel by inject()
     private lateinit var map: GoogleMap
+    private val markerList = mutableListOf<Marker>()
+    private val drawnVenues = mutableSetOf<String>()
 
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
@@ -104,14 +108,31 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
                     // TODO()
                 }
                 is State.Success -> {
-
                     state.value.forEach {
-                        map.addMarker(
-                            MarkerOptions()
-                                .position(it.location.toGoogleMapLatLng())
-                                .title(it.name)
-                        )
+                        if (!drawnVenues.contains(it.id)) {
+                            val marker = map.addMarker(
+                                MarkerOptions()
+                                    .position(it.location.toGoogleMapLatLng())
+                                    .title(it.name)
+                            )
+                            if (marker != null) {
+                                marker.tag = it
+                                markerList.add(marker)
+                            }
+                            drawnVenues.add(it.id)
+                        }
                     }
+                    val newMarkerList = mutableListOf<Marker>()
+                    markerList.forEach {
+                        if (mapViewModel.isVenueCleared(it.tag as Venue)) {
+                            it.remove()
+                            drawnVenues.remove(it.tag)
+                        } else {
+                            newMarkerList.add(it)
+                        }
+                    }
+                    markerList.clear()
+                    markerList.addAll(newMarkerList)
                 }
             }
         }

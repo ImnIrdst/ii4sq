@@ -7,12 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.imn.ii4sq.data.repository.location.LocationRepository
 import com.imn.ii4sq.data.repository.search.SearchVenuesRepository
 import com.imn.ii4sq.domain.entities.*
+import com.imn.ii4sq.utils.distanceTo
 import kotlinx.coroutines.launch
 
 class MapViewModel(
     private val searchVenuesRepository: SearchVenuesRepository,
     private val locationRepository: LocationRepository
-): ViewModel() {
+) : ViewModel() {
+
+    private val venueSet = mutableSetOf<Venue>()
 
     private val _venuesList = MutableLiveData<State<List<Venue>>>()
     val venuesList: LiveData<State<List<Venue>>> = _venuesList
@@ -20,20 +23,26 @@ class MapViewModel(
     val currentLocation: LiveData<State<LocationEntity>>
         get() = locationRepository.getLocationLiveData()
 
-    private var previousQueryLocation: LocationEntity? = null
-    private var previousQueryRadius: Double? = null
-
     fun search(location: LocationEntity, radius: Double) = viewModelScope.launch {
-        if (previousQueryLocation == location && previousQueryRadius == radius) {
-            return@launch
-        }
-        previousQueryLocation = location
-        previousQueryRadius = radius
 
         _venuesList.postValue(loadingState())
 
         val result = searchVenuesRepository.search(location, radius)
 
-        _venuesList.postValue(successState(result))
+        val newVenues = venueSet
+            .apply { addAll(result) }
+            .sortedBy { it.location.toLocationEntity().distanceTo(location) }
+            .take(MARKERS_COUNT_LIMIT)
+
+        venueSet.clear()
+        venueSet.addAll(newVenues)
+
+        _venuesList.postValue(successState(newVenues))
+    }
+
+    fun isVenueCleared(venue: Venue) = !venueSet.contains(venue)
+
+    companion object {
+        private const val MARKERS_COUNT_LIMIT = 25
     }
 }

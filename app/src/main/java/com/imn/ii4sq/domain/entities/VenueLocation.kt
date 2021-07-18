@@ -8,4 +8,6 @@ data class VenueLocation(
     @SerializedName("lng") val longitude: Double,
 ) {
     fun toGoogleMapLatLng() = LatLng(latitude, longitude)
+
+    fun toLocationEntity() = LocationEntity(latitude, longitude)
 }
