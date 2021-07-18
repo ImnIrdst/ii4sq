@@ -10,4 +10,7 @@
     <string name="hello_map_fragment">Hello map fragment</string>
     <string name="hello_venue_details_fragment">Hello venue_details fragment.</string>
     <string name="unknown_error">Unknown Error Happened!</string>
+    <string name="location_permission_required">Location permission is required!</string>
+    <string name="location_permission_required_rationale">We need location permission to show venues around you!</string>
+    <string name="ok">OK</string>
 </resources>
