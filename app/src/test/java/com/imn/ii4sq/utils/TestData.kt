@@ -1,6 +1,7 @@
 package com.imn.ii4sq.utils
 
 import com.google.gson.Gson
+import com.imn.ii4sq.data.remote.details.VenueDetailsResponse
 import com.imn.ii4sq.data.remote.search.SearchResponse
 import com.imn.ii4sq.domain.entities.LocationEntity
 import java.net.UnknownHostException
@@ -18,5 +19,8 @@ val testSearchResponseAfterPan = gson.fromJson<SearchResponse>(testSearchJsonRes
 val testSearchedVenuesAfterPan = testSearchResponseAfterPan.response.venues
 val testVenue = testSearchedVenuesAfterPan[0]
 val testLocationAfterPan = testSearchedVenuesAfterPan[0].location.toLocationEntity()
+
+val testVenueDetailsResponse = gson.fromJson<VenueDetailsResponse>(testVenueDetailsJsonResponse)
+val testVenueDetails = testVenueDetailsResponse.response.venue
 
 const val TEST_AWAIT_TIMEOUT = 1000L

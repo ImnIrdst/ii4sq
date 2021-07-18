@@ -1,13 +1,14 @@
-package com.imn.ii4sq.data.local
+package com.imn.ii4sq.data.local.search
 
 import com.google.common.truth.Truth.assertThat
-import com.imn.ii4sq.data.local.search.SearchVenuesMemoryCacheDao
 import com.imn.ii4sq.data.repository.search.SearchVenuesLocalDataSource
 import com.imn.ii4sq.domain.entities.LocationEntity
-import com.imn.ii4sq.utils.*
+import com.imn.ii4sq.utils.IITest
+import com.imn.ii4sq.utils.testLocation
+import com.imn.ii4sq.utils.testRadius
+import com.imn.ii4sq.utils.testSearchedVenues
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
