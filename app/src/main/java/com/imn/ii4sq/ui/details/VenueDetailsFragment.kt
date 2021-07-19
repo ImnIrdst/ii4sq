@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.imn.ii4sq.R
@@ -79,8 +79,15 @@ class VenueDetailsFragment : BaseBottomSheetFragment<FragmentVenueDetailsBinding
         descriptionTextView.text = details.description
         descriptionFlow.isVisible = details.description != null
 
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
-            (dialog as BottomSheetDialog).behavior.peekHeight = binding.root.height
-        }
+        view?.viewTreeObserver?.addOnGlobalLayoutListener(onGlobalLayoutListener)
+    }
+
+    private val onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+        (dialog as BottomSheetDialog).behavior.peekHeight = binding.root.height
+    }
+
+    override fun onDestroyView() {
+        view?.viewTreeObserver?.removeOnGlobalLayoutListener(onGlobalLayoutListener)
+        super.onDestroyView()
     }
 }
