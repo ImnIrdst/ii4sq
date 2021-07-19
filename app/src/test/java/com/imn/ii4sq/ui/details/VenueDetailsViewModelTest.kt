@@ -8,7 +8,6 @@ import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -41,16 +40,13 @@ class VenueDetailsViewModelTest : IITest() {
 
     @Test
     fun `loading venue details successfully`() = td.runBlockingTest {
-        val expected = testSearchedVenues.sortedBy {
-            it.location.toLocationEntity().distanceToTest(testLocation)
-        }
         venueDetailsViewModel.venueDetails.awaitValue(2) {
 
             venueDetailsViewModel.loadVenueDetails(testVenueDetails.id)
 
         }.let {
             Truth.assertThat(it[0]).isEqualTo(loadingState<VenueDetails>())
-            Truth.assertThat(it[1]).isEqualTo(successState(expected))
+            Truth.assertThat(it[1]).isEqualTo(successState(testVenueDetails))
         }
 
         coVerifySequence {
