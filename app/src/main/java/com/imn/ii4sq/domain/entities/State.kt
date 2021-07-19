@@ -5,6 +5,7 @@ import com.imn.ii4sq.R
 import com.imn.ii4sq.utils.DebugUtils
 import android.util.Log
 import com.imn.ii4sq.utils.isConnectedToNet
+import retrofit2.HttpException
 import java.net.UnknownHostException
 
 sealed class State<out R> {
@@ -25,7 +26,7 @@ sealed class IIError(cause: Throwable) : Throwable(cause) {
             if (DebugUtils.isDebug) {
                 // also send this to crash reporting service
                 Log.e("IIError", "unknown error", cause)
-                throw cause
+                throw cause // this cause crashes in debug mode to resolve them in development phase and don't use general purpose error handling
             }
         }
     }
@@ -40,6 +41,7 @@ fun Throwable.asIIError(): IIError =
     when (this) {
         is IIError -> this
         is UnknownHostException -> IIError.Network(this)
+        is HttpException -> IIError.Network(this)
         else -> IIError.Unknown(this)
     }.also {
         if (DebugUtils.isDebug) {
@@ -52,10 +54,16 @@ fun IIError.humanReadable(context: Context) =
         when (this) {
             is IIError.Unknown -> R.string.unknown_error
             is IIError.Network -> {
-                if (context.isConnectedToNet()) {
-                    R.string.network_error
-                } else {
-                    R.string.check_your_internet_connection
+                when {
+                    this.toString().contains("HTTP 429") -> {
+                        R.string.rate_limit_happend
+                    }
+                    context.isConnectedToNet() -> {
+                        R.string.network_error
+                    }
+                    else -> {
+                        R.string.check_your_internet_connection
+                    }
                 }
             }
         }

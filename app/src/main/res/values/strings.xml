@@ -15,4 +15,5 @@
     <string name="address">Address</string>
     <string name="phone">Phone number</string>
     <string name="description">Description</string>
+    <string name="rate_limit_happend">Api rate limit exceeded!</string>
 </resources>
