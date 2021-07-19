@@ -1,5 +1,4 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="normal_spacing">16dp</dimen>
     <dimen name="double_spacing">32dp</dimen>
     <dimen name="huge_spacing">64dp</dimen>

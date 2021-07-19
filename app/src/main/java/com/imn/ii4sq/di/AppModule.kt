@@ -1,6 +1,5 @@
 package com.imn.ii4sq.di
 
-import com.google.gson.Gson
 import com.imn.ii4sq.data.local.details.VenueDetailsMemoryCacheDao
 import com.imn.ii4sq.data.local.location.FusedLocationLiveData
 import com.imn.ii4sq.data.local.search.SearchVenuesMemoryCacheDao

@@ -1,6 +1,5 @@
 package com.imn.ii4sq.ui.map
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import com.imn.ii4sq.data.repository.search.SearchVenuesRepository
 import com.imn.ii4sq.domain.entities.*
 import com.imn.ii4sq.utils.distanceTo
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class MapViewModel(
     private val searchVenuesRepository: SearchVenuesRepository,

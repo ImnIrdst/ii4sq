@@ -8,11 +8,9 @@ import com.imn.ii4sq.utils.*
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.net.UnknownHostException
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MapViewModelTest : IITest() {
