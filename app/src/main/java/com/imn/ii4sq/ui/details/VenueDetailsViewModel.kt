@@ -17,9 +17,12 @@ class VenueDetailsViewModel(
 
     fun loadVenueDetails(venueId: String) = viewModelScope.launch {
         _venueDetails.postValue(loadingState())
+        try {
+            val result = venueDetailsRepository.getVenueDetails(venueId)
 
-        val result = venueDetailsRepository.getVenueDetails(venueId)
-
-        _venueDetails.postValue(successState(result))
+            _venueDetails.postValue(successState(result))
+        } catch (e: Exception) {
+            _venueDetails.postValue(failureState(e.asIIError()))
+        }
     }
 }
