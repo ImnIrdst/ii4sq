@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.imn.ii4sq.R
 import com.imn.ii4sq.databinding.FragmentVenueDetailsBinding
@@ -77,5 +78,9 @@ class VenueDetailsFragment : BaseBottomSheetFragment<FragmentVenueDetailsBinding
 
         descriptionTextView.text = details.description
         descriptionFlow.isVisible = details.description != null
+
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
+            (dialog as BottomSheetDialog).behavior.peekHeight = binding.root.height
+        }
     }
 }
