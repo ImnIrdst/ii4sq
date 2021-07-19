@@ -158,7 +158,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
                     snackBar?.dismiss()
                     snackBar = binding.coordinatorLayout.showSnackbar(
                         it.error.humanReadable(requireContext()),
-                        Snackbar.LENGTH_INDEFINITE,
+                        Snackbar.LENGTH_LONG,
                     )
                 }
                 is State.Loading -> {

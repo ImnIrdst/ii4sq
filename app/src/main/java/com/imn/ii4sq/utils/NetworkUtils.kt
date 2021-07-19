@@ -20,6 +20,7 @@ fun Context.isConnectedToNet(): Boolean {
             else -> false
         }
     } else {
+        @Suppress("DEPRECATION")
         connectivityManager.run {
             activeNetworkInfo?.run {
                 isConnected = when (type) {

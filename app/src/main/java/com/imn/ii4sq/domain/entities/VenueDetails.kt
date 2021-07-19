@@ -1,16 +1,14 @@
 package com.imn.ii4sq.domain.entities
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class VenueDetails(
     @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
-    @SerializedName("category") val category: List<VenueCategory>,
     @SerializedName("location") val location: VenueLocation,
-) : Parcelable {
+    @SerializedName("contact") val contact: VenueContact,
+    @SerializedName("description") val description: String?,
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

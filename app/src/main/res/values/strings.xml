@@ -16,4 +16,7 @@
     <string name="ok">OK</string>
     <string name="retry">RETRY</string>
     <string name="check_your_internet_connection">Please check your internet connection!</string>
+    <string name="address">Address</string>
+    <string name="phone">Phone number</string>
+    <string name="description">Description</string>
 </resources>

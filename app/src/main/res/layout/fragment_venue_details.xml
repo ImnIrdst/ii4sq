@@ -7,26 +7,114 @@
     android:background="@drawable/shape_top_round_corners"
     android:paddingHorizontal="@dimen/normal_spacing"
     android:paddingVertical="@dimen/double_spacing"
-    tools:context=".ui.details.VenueDetailsFragment">
+    tools:context=".ui.details.VenueDetailsFragment"
+    tools:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
-    <TextView
-        android:id="@+id/textview_venue_details"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.helper.widget.Flow
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@id/button_venue_details"
+        android:orientation="vertical"
+        app:constraint_referenced_ids="titleTextView,addressFlow,phoneFlow,descriptionFlow,loading_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/hello_venue_details_fragment"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_venue_details"
+    <TextView
+        android:id="@+id/titleTextView"
+        style="@style/TextAppearance.MaterialComponents.Headline4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/normal_spacing"
+        android:text="@string/hello_venue_details_fragment" />
+
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/addressFlow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:constraint_referenced_ids="addressImageView,addressTextView" />
+
+    <ImageView
+        android:id="@+id/addressImageView"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:contentDescription="@string/address"
+        android:padding="@dimen/normal_spacing"
+        android:src="@drawable/ic_baseline_location_on_24" />
+
+    <TextView
+        android:id="@+id/addressTextView"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/normal_spacing"
+        tools:text="178 Broadway" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/phoneFlow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:constraint_referenced_ids="phoneImageView,phoneTextView" />
+
+    <ImageView
+        android:id="@+id/phoneImageView"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:contentDescription="@string/phone"
+        android:padding="@dimen/normal_spacing"
+        android:src="@drawable/ic_baseline_phone_24" />
+
+    <TextView
+        android:id="@+id/phoneTextView"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/normal_spacing"
+        tools:text="+1 123 5125 1" />
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/descriptionFlow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:constraint_referenced_ids="descriptionImageView,descriptionTextView" />
+
+    <ImageView
+        android:id="@+id/descriptionImageView"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:contentDescription="@string/description"
+        android:padding="@dimen/normal_spacing"
+        android:src="@drawable/ic_baseline_description_24"
+        app:layout_constraintVertical_bias="0" />
+
+    <TextView
+        android:id="@+id/descriptionTextView"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/normal_spacing"
+        tools:text="Peter Luger Steak House has been serving the finest steaks since 1887. We choose from only the finest USDA PRIME meat available. The selection process is crucial  and therefore is done only by members of the family who visit the wholesale markets on a daily basis." />
+
+    <ProgressBar
+        android:id="@+id/loading_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/previous"
+        android:layout_margin="@dimen/double_spacing"
+        android:visibility="gone" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_venue_details" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

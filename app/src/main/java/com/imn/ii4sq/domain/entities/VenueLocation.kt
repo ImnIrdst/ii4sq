@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 data class VenueLocation(
     @SerializedName("lat") val latitude: Double,
     @SerializedName("lng") val longitude: Double,
+    @SerializedName("address") val address: String,
 ): Parcelable {
     fun toGoogleMapLatLng() = LatLng(latitude, longitude)
 
