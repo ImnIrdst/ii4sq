@@ -1,13 +1,12 @@
 package com.imn.ii4sq.data.remote.details
 
-import com.imn.ii4sq.data.repository.search.SearchVenuesRemoteDataSource
+import com.imn.ii4sq.data.repository.details.VenueDetailsRemoteDataSource
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 
-interface VenueDetailsApi: SearchVenuesRemoteDataSource {
-    @GET("venues/{venueId}")
-    suspend fun getVenueDetail(
+interface VenueDetailsApi: VenueDetailsRemoteDataSource {
+    @GET("v2/venues/{venueId}")
+    override suspend fun getVenueDetails(
         @Path("venueId") venueId: String
     ): VenueDetailsResponse
 }
