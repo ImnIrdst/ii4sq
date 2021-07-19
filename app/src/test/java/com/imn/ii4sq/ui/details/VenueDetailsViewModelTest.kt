@@ -53,4 +53,24 @@ class VenueDetailsViewModelTest : IITest() {
             venueDetailsRepository.getVenueDetails(testVenueDetails.id)
         }
     }
+
+    @Test
+    fun `loading venue details throws exception`() = td.runBlockingTest {
+        coEvery { venueDetailsRepository.getVenueDetails(testVenueDetails.id) } throws
+                testUnknownHostException
+
+        venueDetailsViewModel.venueDetails.awaitValue(2) {
+
+            venueDetailsViewModel.loadVenueDetails(testVenueDetails.id)
+
+        }.let {
+            Truth.assertThat(it[0]).isEqualTo(loadingState<VenueDetails>())
+            Truth.assertThat(it[1])
+                .isEqualTo(failureState<VenueDetails>(testUnknownHostException.asIIError()))
+        }
+
+        coVerifySequence {
+            venueDetailsRepository.getVenueDetails(testVenueDetails.id)
+        }
+    }
 }
