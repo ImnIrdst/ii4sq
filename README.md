@@ -1,3 +1,5 @@
+[![Scan with Detekt](https://github.com/ImnIrdst/ii4sq/actions/workflows/detekt-analysis.yml/badge.svg?branch=main)](https://github.com/ImnIrdst/ii4sq/actions/workflows/detekt-analysis.yml)
+
 # ii4sq
 A playground android app, showcasing the latest technologies and architecture patterns using the [Foursquare APIs](https://developer.foursquare.com/).
 
