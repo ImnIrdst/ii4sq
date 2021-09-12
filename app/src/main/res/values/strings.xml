@@ -6,6 +6,7 @@
 
     <string name="hello_venue_details_fragment">Hello venue_details fragment.</string>
     <string name="unknown_error">Unknown Error Happened!</string>
+    <string name="location_is_null_error">Failed to get the current location</string>
     <string name="network_error">Network Error Happened!</string>
     <string name="location_permission_required">Location permission is required!</string>
     <string name="location_permission_required_rationale">We need location permission to show venues around you!</string>

@@ -1,9 +1,9 @@
 package com.imn.ii4sq.domain.entities
 
 import android.content.Context
+import android.util.Log
 import com.imn.ii4sq.R
 import com.imn.ii4sq.utils.DebugUtils
-import android.util.Log
 import com.imn.ii4sq.utils.isConnectedToNet
 import retrofit2.HttpException
 import java.net.UnknownHostException
@@ -20,13 +20,17 @@ fun <V> failureState(error: IIError): State<V> = State.Failure(error)
 fun <V> failureState(error: Throwable): State<V> = State.Failure(error.asIIError())
 
 sealed class IIError(cause: Throwable) : Throwable(cause) {
+    object LocationIsNull : IIError(Throwable("Location is Null"))
     class Network(cause: Throwable) : IIError(cause)
     class Unknown(cause: Throwable) : IIError(cause) {
         init {
             if (DebugUtils.isDebug) {
                 // also send this to crash reporting service
                 Log.e("IIError", "unknown error", cause)
-                throw cause // this cause crashes in debug mode to resolve them in development phase and don't use general purpose error handling
+
+                // this cause crashes in debug mode to resolve them in development
+                // phase and don't use general purpose error handling
+                throw cause
             }
         }
     }
@@ -53,6 +57,7 @@ fun IIError.humanReadable(context: Context) =
     context.getString(
         when (this) {
             is IIError.Unknown -> R.string.unknown_error
+            is IIError.LocationIsNull -> R.string.location_is_null_error
             is IIError.Network -> {
                 when {
                     this.toString().contains("HTTP 429") -> {

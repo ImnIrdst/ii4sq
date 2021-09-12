@@ -9,7 +9,13 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.imn.ii4sq.domain.entities.*
+import com.imn.ii4sq.domain.entities.IIError
+import com.imn.ii4sq.domain.entities.LocationEntity
+import com.imn.ii4sq.domain.entities.State
+import com.imn.ii4sq.domain.entities.failureState
+import com.imn.ii4sq.domain.entities.loadingState
+import com.imn.ii4sq.domain.entities.successState
+
 
 class FusedLocationLiveData(context: Context) : LiveData<State<LocationEntity>>() {
 
@@ -29,7 +35,7 @@ class FusedLocationLiveData(context: Context) : LiveData<State<LocationEntity>>(
                 setLocationData(location)
             }
             .addOnFailureListener {
-                sendError(null, it)
+                sendError(it)
             }
         startLocationUpdates()
     }
@@ -46,7 +52,7 @@ class FusedLocationLiveData(context: Context) : LiveData<State<LocationEntity>>(
     private val locationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult?) {
             if (locationResult == null) {
-                sendError(locationResult)
+                sendError(IIError.LocationIsNull)
                 return
             }
             for (location in locationResult.locations) {
@@ -57,7 +63,7 @@ class FusedLocationLiveData(context: Context) : LiveData<State<LocationEntity>>(
 
     private fun setLocationData(location: Location?) {
         if (location == null) {
-            sendError(location)
+            sendError(IIError.LocationIsNull)
         } else {
             val state = successState(
                 LocationEntity(
@@ -71,8 +77,8 @@ class FusedLocationLiveData(context: Context) : LiveData<State<LocationEntity>>(
         }
     }
 
-    private fun sendError(location: Location?, cause: Throwable? = null) {
-        value = failureState(Throwable("locationResult is $location", cause))
+    private fun sendError(cause: Throwable) {
+        value = failureState(cause)
     }
 
     companion object {
