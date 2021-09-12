@@ -24,12 +24,14 @@ import com.imn.ii4sq.domain.entities.State
 import com.imn.ii4sq.domain.entities.Venue
 import com.imn.ii4sq.domain.entities.humanReadable
 import com.imn.ii4sq.ui.base.BaseFragment
-import com.imn.ii4sq.utils.*
+import com.imn.ii4sq.utils.LOCATION_PERMISSIONS
+import com.imn.ii4sq.utils.getMapVisibleRadius
+import com.imn.ii4sq.utils.getTargetLocation
+import com.imn.ii4sq.utils.shouldShowRequestPermissionRationaleCompat
+import com.imn.ii4sq.utils.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class MapFragment : BaseFragment<FragmentMapBinding>() {
-
     private lateinit var map: GoogleMap
 
     private val mapViewModel: MapViewModel by viewModel()
@@ -67,8 +69,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { isGranted ->
-        if (isGranted.size == LOCATION_PERMISSIONS.size
-            && isGranted.values.all { it == true }
+        if (isGranted.size == LOCATION_PERMISSIONS.size &&
+            isGranted.values.all { it == true }
         ) {
             listenToMyCurrentLocation()
         } else {
@@ -186,7 +188,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
                     location.latitude,
                     location.longitude
                 ),
-                17f
+                ZOOM_AMOUNT
             )
         )
     }
@@ -203,5 +205,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>() {
         } else {
             requestPermissionLauncher.launch(LOCATION_PERMISSIONS)
         }
+    }
+
+    companion object {
+        private const val ZOOM_AMOUNT: Float = 17f
     }
 }

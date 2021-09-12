@@ -6,7 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imn.ii4sq.data.repository.location.LocationRepository
 import com.imn.ii4sq.data.repository.search.SearchVenuesRepository
-import com.imn.ii4sq.domain.entities.*
+import com.imn.ii4sq.domain.entities.LocationEntity
+import com.imn.ii4sq.domain.entities.State
+import com.imn.ii4sq.domain.entities.Venue
+import com.imn.ii4sq.domain.entities.asIIError
+import com.imn.ii4sq.domain.entities.failureState
+import com.imn.ii4sq.domain.entities.loadingState
+import com.imn.ii4sq.domain.entities.successState
 import com.imn.ii4sq.utils.distanceTo
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.imn
+package com.imn.ii4sq
 
 import android.app.Application
 import com.imn.ii4sq.di.appModule

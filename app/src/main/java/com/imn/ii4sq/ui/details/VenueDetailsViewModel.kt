@@ -5,7 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imn.ii4sq.data.repository.details.VenueDetailsRepository
-import com.imn.ii4sq.domain.entities.*
+import com.imn.ii4sq.domain.entities.State
+import com.imn.ii4sq.domain.entities.VenueDetails
+import com.imn.ii4sq.domain.entities.asIIError
+import com.imn.ii4sq.domain.entities.failureState
+import com.imn.ii4sq.domain.entities.loadingState
+import com.imn.ii4sq.domain.entities.successState
 import kotlinx.coroutines.launch
 
 class VenueDetailsViewModel(

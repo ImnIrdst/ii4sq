@@ -40,7 +40,6 @@ sealed class IIError(cause: Throwable) : Throwable(cause) {
     override fun toString(): String = "IIError($cause)"
 }
 
-
 fun Throwable.asIIError(): IIError =
     when (this) {
         is IIError -> this
@@ -61,7 +60,7 @@ fun IIError.humanReadable(context: Context) =
             is IIError.Network -> {
                 when {
                     this.toString().contains("HTTP 429") -> {
-                        R.string.rate_limit_happend
+                        R.string.rate_limit_happened
                     }
                     context.isConnectedToNet() -> {
                         R.string.network_error

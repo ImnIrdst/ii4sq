@@ -28,6 +28,7 @@ class ViewLifecycleDelegateMutable<T> : ReadWriteProperty<Fragment, T>, Lifecycl
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    @Suppress("UnusedPrivateMember")
     private fun onViewDestroyed() {
         isObserverAdded = false
         value = null

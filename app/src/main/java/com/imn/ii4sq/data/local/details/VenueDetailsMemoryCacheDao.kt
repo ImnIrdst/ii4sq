@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 
 class VenueDetailsMemoryCacheDao(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-): VenueDetailsLocalDataSource {
+) : VenueDetailsLocalDataSource {
     private val cache = mutableMapOf<String, VenueDetails>()
 
     override suspend fun insert(venueDetails: VenueDetails) =
@@ -20,5 +20,4 @@ class VenueDetailsMemoryCacheDao(
         withContext(ioDispatcher) {
             cache[venueId]
         }
-
 }

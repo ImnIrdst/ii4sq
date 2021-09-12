@@ -18,7 +18,6 @@ import com.imn.ii4sq.ui.base.BaseBottomSheetFragment
 import com.imn.ii4sq.utils.showSnackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class VenueDetailsFragment : BaseBottomSheetFragment<FragmentVenueDetailsBinding>() {
 
     private val args: VenueDetailsFragmentArgs by navArgs()
@@ -39,7 +38,6 @@ class VenueDetailsFragment : BaseBottomSheetFragment<FragmentVenueDetailsBinding
         titleTextView.text = args.venue.name
     }
 
-
     private fun initViewModels() {
         detailsViewModel.venueDetails.observe(viewLifecycleOwner) {
             handleVenueDetailsState(it)
@@ -48,7 +46,7 @@ class VenueDetailsFragment : BaseBottomSheetFragment<FragmentVenueDetailsBinding
     }
 
     private fun handleVenueDetailsState(it: State<VenueDetails>) = with(binding) {
-        when(it) {
+        when (it) {
             is State.Failure -> {
                 coordinatorLayout.showSnackbar(
                     it.error.humanReadable(requireContext()),
@@ -68,7 +66,6 @@ class VenueDetailsFragment : BaseBottomSheetFragment<FragmentVenueDetailsBinding
             }
         }
     }
-
 
     private fun populateUI(details: VenueDetails) = with(binding) {
         addressTextView.text = details.location.address

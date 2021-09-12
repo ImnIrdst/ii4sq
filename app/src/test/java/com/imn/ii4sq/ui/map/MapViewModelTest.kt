@@ -50,7 +50,6 @@ class MapViewModelTest : IITest() {
         super.tearDown()
     }
 
-
     @Test
     fun `loading search results successfully`() = td.runBlockingTest {
         val expected = testSearchedVenues.sortedBy {
@@ -59,7 +58,6 @@ class MapViewModelTest : IITest() {
         mapViewModel.venuesList.awaitValue(2) {
 
             mapViewModel.search(testLocation, testRadius)
-
         }.let {
             assertThat(it[0]).isEqualTo(loadingState<List<Venue>>())
             assertThat(it[1]).isEqualTo(successState(expected))
@@ -82,13 +80,10 @@ class MapViewModelTest : IITest() {
                 it.location.toLocationEntity().distanceToTest(testLocationAfterPan)
             }
 
-
-
         mapViewModel.venuesList.awaitValue(3) {
 
             mapViewModel.search(testLocation, testRadius)
             mapViewModel.search(testLocationAfterPan, testRadius)
-
         }.let {
             assertThat(it[0]).isEqualTo(loadingState<List<Venue>>())
             assertThat(it[1]).isEqualTo(successState(expectedBeforePan))
@@ -112,7 +107,6 @@ class MapViewModelTest : IITest() {
         mapViewModel.venuesList.awaitValue(2) {
 
             mapViewModel.search(testLocation, testRadius)
-
         }.let {
             assertThat(it[0]).isEqualTo(loadingState<List<Venue>>())
             assertThat(it[1]).isEqualTo(failureState<List<Venue>>(testUnknownHostException.asIIError()))

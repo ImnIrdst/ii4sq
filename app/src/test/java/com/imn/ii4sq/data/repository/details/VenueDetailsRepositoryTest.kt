@@ -2,8 +2,14 @@ package com.imn.ii4sq.data.repository.details
 
 import com.google.common.truth.Truth.assertThat
 import com.imn.ii4sq.data.local.details.VenueDetailsMemoryCacheDao
-import com.imn.ii4sq.utils.*
-import io.mockk.*
+import com.imn.ii4sq.utils.IITest
+import com.imn.ii4sq.utils.testVenueDetails
+import com.imn.ii4sq.utils.testVenueDetailsResponse
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.mockk
+import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -41,25 +47,26 @@ class VenueDetailsRepositoryTest : IITest() {
     }
 
     @Test
-    fun `getVenueDetails returns results from remote data source and caches it`() = td.runBlockingTest {
+    fun `getVenueDetails returns results from remote data source and caches it`() =
+        td.runBlockingTest {
 
-        val notCacheResults = searchVenuesRepository.getVenueDetails(testVenueDetails.id)
+            val notCacheResults = searchVenuesRepository.getVenueDetails(testVenueDetails.id)
 
-        assertThat(notCacheResults).isEqualTo(testVenueDetails)
+            assertThat(notCacheResults).isEqualTo(testVenueDetails)
 
-        val cachedResults = searchVenuesRepository.getVenueDetails(testVenueDetails.id)
+            val cachedResults = searchVenuesRepository.getVenueDetails(testVenueDetails.id)
 
-        assertThat(cachedResults).isEqualTo(testVenueDetails)
+            assertThat(cachedResults).isEqualTo(testVenueDetails)
 
-        coVerifySequence {
-            // before caching
-            searchVenuesLocalDataSource.getVenueDetails(testVenueDetails.id)
+            coVerifySequence {
+                // before caching
+                searchVenuesLocalDataSource.getVenueDetails(testVenueDetails.id)
 
-            searchVenuesRemoteDataSource.getVenueDetails(testVenueDetails.id)
-            searchVenuesLocalDataSource.insert(testVenueDetails)
+                searchVenuesRemoteDataSource.getVenueDetails(testVenueDetails.id)
+                searchVenuesLocalDataSource.insert(testVenueDetails)
 
-            // after caching
-            searchVenuesLocalDataSource.getVenueDetails(testVenueDetails.id)
+                // after caching
+                searchVenuesLocalDataSource.getVenueDetails(testVenueDetails.id)
+            }
         }
-    }
 }

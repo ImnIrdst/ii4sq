@@ -2,9 +2,22 @@ package com.imn.ii4sq.ui.details
 
 import com.google.common.truth.Truth
 import com.imn.ii4sq.data.repository.details.VenueDetailsRepository
-import com.imn.ii4sq.domain.entities.*
-import com.imn.ii4sq.utils.*
-import io.mockk.*
+import com.imn.ii4sq.domain.entities.VenueDetails
+import com.imn.ii4sq.domain.entities.asIIError
+import com.imn.ii4sq.domain.entities.failureState
+import com.imn.ii4sq.domain.entities.loadingState
+import com.imn.ii4sq.domain.entities.successState
+import com.imn.ii4sq.utils.DebugUtils
+import com.imn.ii4sq.utils.IITest
+import com.imn.ii4sq.utils.awaitValue
+import com.imn.ii4sq.utils.testUnknownHostException
+import com.imn.ii4sq.utils.testVenueDetails
+import io.mockk.coEvery
+import io.mockk.coVerifySequence
+import io.mockk.confirmVerified
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkObject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
@@ -28,7 +41,6 @@ class VenueDetailsViewModelTest : IITest() {
             coEvery { getVenueDetails(testVenueDetails.id) } returns testVenueDetails
         }
 
-
         venueDetailsViewModel = VenueDetailsViewModel(venueDetailsRepository)
     }
 
@@ -43,7 +55,6 @@ class VenueDetailsViewModelTest : IITest() {
         venueDetailsViewModel.venueDetails.awaitValue(2) {
 
             venueDetailsViewModel.loadVenueDetails(testVenueDetails.id)
-
         }.let {
             Truth.assertThat(it[0]).isEqualTo(loadingState<VenueDetails>())
             Truth.assertThat(it[1]).isEqualTo(successState(testVenueDetails))
@@ -62,7 +73,6 @@ class VenueDetailsViewModelTest : IITest() {
         venueDetailsViewModel.venueDetails.awaitValue(2) {
 
             venueDetailsViewModel.loadVenueDetails(testVenueDetails.id)
-
         }.let {
             Truth.assertThat(it[0]).isEqualTo(loadingState<VenueDetails>())
             Truth.assertThat(it[1])

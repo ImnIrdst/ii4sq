@@ -1,3 +1,5 @@
+@file:Suppress("MaxLineLength")
+
 package com.imn.ii4sq.utils
 
 val testSearchJsonResponse = """

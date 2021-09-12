@@ -25,7 +25,6 @@ class VenueDetailsMemoryCacheDaoTest : IITest() {
     @After
     override fun tearDown() = super.setUp()
 
-
     @Test
     fun `is caching works`() = td.runBlockingTest {
         val beforeCachingResult = venueDetailsLocalDataSource.getVenueDetails(testVenueDetails.id)

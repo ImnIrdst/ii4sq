@@ -28,7 +28,6 @@ class SearchVenuesMemoryCacheDaoTest : IITest() {
     @After
     override fun tearDown() = super.setUp()
 
-
     @Test
     fun `is caching works`() = td.runBlockingTest {
         val beforeCachingResult = searchVenuesLocalDataSource.search(testLocation, testRadius)

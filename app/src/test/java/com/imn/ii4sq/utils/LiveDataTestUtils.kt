@@ -5,7 +5,7 @@ import androidx.lifecycle.Observer
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
-fun <T> LiveData<T>.awaitValue(count: Int, block: ()-> Unit): List<T> {
+fun <T> LiveData<T>.awaitValue(count: Int, block: () -> Unit): List<T> {
     val data = mutableListOf<T>()
     val latch = CountDownLatch(count)
 

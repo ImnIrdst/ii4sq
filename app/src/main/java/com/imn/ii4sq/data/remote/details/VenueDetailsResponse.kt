@@ -10,7 +10,7 @@ data class VenueDetailsResponse(
 
     companion object {
         data class Response(
-            @SerializedName("venue")  val venue: VenueDetails
+            @SerializedName("venue") val venue: VenueDetails
         )
     }
 }
